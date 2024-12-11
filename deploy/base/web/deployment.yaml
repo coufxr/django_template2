@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+spec:
+  template:
+    spec:
+      imagePullSecrets:
+        - name: aliyun-hub
+      containers:
+        - name: web
+          image: web
+          imagePullPolicy: IfNotPresent
+          command:
+            - python
+          args:
+            - manage.py
+            - runserver
+            - 0.0.0.0:8000
+          ports:
+            - containerPort: 8000
+              protocol: TCP
+#          volumeMounts:
+#            - name: config
+#              mountPath: /app/web/settings/config.py
+#              subPath: config.py
+#          envFrom:
+#            - configMapRef:
+#                name: env
+      volumes:
+        - name: config
+          configMap:
+            name: config

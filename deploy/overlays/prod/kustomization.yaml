@@ -1,0 +1,18 @@
+namespace: ralf
+
+resources:
+  - ../../base/web
+
+  - ingress.yaml
+
+#configMapGenerator:
+#  - name: config
+#    files:
+#      - config/config.py
+#  - name: env
+#    env: .env
+
+images:
+  - name: web
+    newName: xxx.xxx.com/geek-app/web
+    newTag: "<IMAGE_TAG>"

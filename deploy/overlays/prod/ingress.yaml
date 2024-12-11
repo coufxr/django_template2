@@ -1,0 +1,34 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/cors-allow-headers: "DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,
+          Cache-Control,Content-Type,Authorization,sentry-trace"
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      gzip on;
+      gzip_types application/atom+xml application/javascript
+      application/x-javascript application/json application/rss+xml
+      application/vnd.ms-fontobject application/x-font-ttf application/x-web-app-manifest+json
+      application/xhtml+xml application/xml font/opentype image/svg+xml
+      image/x-icon text/css text/plain text/x-component;
+      gzip_min_length 1000;
+      add_header Strict-Transport-Security "max-age=0";
+spec:
+  tls:
+    - hosts:
+        - xxx.xxx.com
+      secretName: tls-xxx-com
+  rules:
+    - host: xxx.x.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: web
+                port:
+                  number: 8000
